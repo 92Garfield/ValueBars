@@ -20,3 +20,6 @@ desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# CurseForge specific files
+CurseForgeDescription.txt
