@@ -2,6 +2,10 @@
 
 A World of Warcraft addon that displays customizable status bars for tracking player health, damage absorb shields, and heal absorb effects.
 
+Since the Values are secret, bars or text cannot be hidden when 0 or irrelevant.
+I do this by making bars with no background with width of my healthbar and small height.
+That way absorbs are visible when present, but do not take up space when not.
+
 ## Features
 
 - **Three Bar Types:**
