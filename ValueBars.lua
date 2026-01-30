@@ -6,7 +6,7 @@
 ValueBars = ValueBars or {}
 
 -- Addon variables
-ValueBars.version = "1.0.0"
+ValueBars.version = "1.0.1"
 ValueBars.bars = {}
 
 -- Initialize the addon
@@ -30,7 +30,7 @@ function ValueBars:CreateAllBars()
     if not self.db then
         return
     end
-    
+
     -- Health bar
     local healthBar = self:NewBar(UIParent, ValueBars.DisplayType.HEALTH)
     local healthSettings = self.db.global.bars.health
@@ -72,11 +72,6 @@ function ValueBars:CreateAllBars()
     absorbHealBar.frame:SetStatusBarColor(absorbHealSettings.color.r, absorbHealSettings.color.g, absorbHealSettings.color.b, absorbHealSettings.color.a)
     absorbHealBar:SetBackgroundOpacity(absorbHealSettings.bgOpacity)
     absorbHealBar:SetTextVisible(absorbHealSettings.showText)
-    if absorbHealSettings.enabled then
-        absorbHealBar:Show()
-    else
-        absorbHealBar:Hide()
-    end
     self.absorbHealBar = absorbHealBar
 end
 
@@ -121,64 +116,63 @@ function ValueBars:UpdateBars()
     if not self.db then
         return
     end
-    
+
+    local inCombat = UnitAffectingCombat("player")
+
     -- Update health bar
     if self.healthBar then
-        local settings = self.db.global.bars.health
-        self.healthBar:SetSize(settings.width, settings.height)
-        self.healthBar.frame:ClearAllPoints()
-        self.healthBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
-        if settings.color then
-            self.healthBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
-        end
-        if settings.bgOpacity then
-            self.healthBar:SetBackgroundOpacity(settings.bgOpacity)
-        end
-        self.healthBar:SetTextVisible(settings.showText)
-        if settings.enabled then
-            self.healthBar:Show()
-        else
-            self.healthBar:Hide()
+        self.healthBar.SetVisible(inCombat)
+
+        if self.healthBar.visible then
+            local settings = self.db.global.bars.health
+            self.healthBar:SetSize(settings.width, settings.height)
+            self.healthBar.frame:ClearAllPoints()
+            self.healthBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
+            if settings.color then
+                self.healthBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+            end
+            if settings.bgOpacity then
+                self.healthBar:SetBackgroundOpacity(settings.bgOpacity)
+            end
+            self.healthBar:SetTextVisible(settings.showText)
         end
     end
     
     -- Update absorb damage bar
     if self.absorbDamageBar then
-        local settings = self.db.global.bars.absorbDamage
-        self.absorbDamageBar:SetSize(settings.width, settings.height)
-        self.absorbDamageBar.frame:ClearAllPoints()
-        self.absorbDamageBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
-        if settings.color then
-            self.absorbDamageBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
-        end
-        if settings.bgOpacity then
-            self.absorbDamageBar:SetBackgroundOpacity(settings.bgOpacity)
-        end
-        self.absorbDamageBar:SetTextVisible(settings.showText)
-        if settings.enabled then
-            self.absorbDamageBar:Show()
-        else
-            self.absorbDamageBar:Hide()
+        self.absorbDamageBar.SetVisible(inCombat)
+
+        if self.absorbDamageBar.visible then
+            local settings = self.db.global.bars.absorbDamage
+            self.absorbDamageBar:SetSize(settings.width, settings.height)
+            self.absorbDamageBar.frame:ClearAllPoints()
+            self.absorbDamageBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
+            if settings.color then
+                self.absorbDamageBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+            end
+            if settings.bgOpacity then
+                self.absorbDamageBar:SetBackgroundOpacity(settings.bgOpacity)
+            end
+            self.absorbDamageBar:SetTextVisible(settings.showText)
         end
     end
     
     -- Update absorb heal bar
     if self.absorbHealBar then
-        local settings = self.db.global.bars.absorbHeal
-        self.absorbHealBar:SetSize(settings.width, settings.height)
-        self.absorbHealBar.frame:ClearAllPoints()
-        self.absorbHealBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
-        if settings.color then
-            self.absorbHealBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
-        end
-        if settings.bgOpacity then
-            self.absorbHealBar:SetBackgroundOpacity(settings.bgOpacity)
-        end
-        self.absorbHealBar:SetTextVisible(settings.showText)
-        if settings.enabled then
-            self.absorbHealBar:Show()
-        else
-            self.absorbHealBar:Hide()
+        self.absorbHealBar.SetVisible(inCombat)
+
+        if self.absorbHealBar.visible then
+            local settings = self.db.global.bars.absorbHeal
+            self.absorbHealBar:SetSize(settings.width, settings.height)
+            self.absorbHealBar.frame:ClearAllPoints()
+            self.absorbHealBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
+            if settings.color then
+                self.absorbHealBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+            end
+            if settings.bgOpacity then
+                self.absorbHealBar:SetBackgroundOpacity(settings.bgOpacity)
+            end
+            self.absorbHealBar:SetTextVisible(settings.showText)
         end
     end
 end
@@ -188,17 +182,31 @@ function ValueBars:UpdateAllBarValues()
     if not self.db or not self.db.global.enabled then
         return
     end
+
+    local inCombat = UnitAffectingCombat("player")
     
-    if self.healthBar and self.db.global.bars.health.enabled then
-        self.healthBar:Update()
+    if self.healthBar then
+        self.healthBar:SetVisible(inCombat)
+
+        if self.healthBar.visible then
+            self.healthBar:Update()
+        end
     end
     
-    if self.absorbDamageBar and self.db.global.bars.absorbDamage.enabled then
-        self.absorbDamageBar:Update()
+    if self.absorbDamageBar then
+        self.absorbDamageBar:SetVisible(inCombat)
+
+        if self.absorbDamageBar.visible then
+            self.absorbDamageBar:Update()
+        end
     end
     
-    if self.absorbHealBar and self.db.global.bars.absorbHeal.enabled then
-        self.absorbHealBar:Update()
+    if self.absorbHealBar then
+        self.absorbHealBar:SetVisible(inCombat)
+
+        if self.absorbHealBar.visible then
+            self.absorbHealBar:Update()
+        end
     end
 end
 
@@ -231,6 +239,8 @@ end
 -- Event handler
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("ADDON_LOADED")
+eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 eventFrame:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "ValueBars" then
         ValueBars:Initialize()

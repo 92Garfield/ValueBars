@@ -2,7 +2,7 @@
 ## Title: ValueBars
 ## Notes:
 ## Author: Demonperson a.k.a. 92Garfield
-## Version: 1.0
+## Version: 1.0.1
 ## SavedVariables: ValueBarsDB
 
 # Libraries

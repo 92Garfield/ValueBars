@@ -31,7 +31,8 @@ local defaults = {
                 posY = 0,
                 color = Color(0, 1, 0, 1), -- Green
                 bgOpacity = 0.5,
-                showText = false
+                showText = false,
+                hideOutOfCombat = false
             },
             absorbDamage = {
                 enabled = true,
@@ -41,7 +42,8 @@ local defaults = {
                 posY = -30,
                 color = Color(0.5, 0.5, 1, 1), -- Blue
                 bgOpacity = 0.5,
-                showText = false
+                showText = false,
+                hideOutOfCombat = false
             },
             absorbHeal = {
                 enabled = true,
@@ -51,7 +53,8 @@ local defaults = {
                 posY = -60,
                 color = Color(1, 1, 0, 1), -- Yellow
                 bgOpacity = 0.5,
-                showText = false
+                showText = false,
+                hideOutOfCombat = false
             }
         }
     }
@@ -244,6 +247,20 @@ local options = {
                         ValueBars.db.global.bars.health.showText = val
                         ValueBars:UpdateBars()
                     end
+                },
+                hideOutOfCombat = {
+                    name = "Hide While Out of Combat",
+                    desc = "Hide the bar when you are not in combat",
+                    type = "toggle",
+                    order = 10,
+                    width = "full",
+                    get = function(info)
+                        return ValueBars.db.global.bars.health.hideOutOfCombat
+                    end,
+                    set = function(info, val)
+                        ValueBars.db.global.bars.health.hideOutOfCombat = val
+                        ValueBars:UpdateBarVisibility()
+                    end
                 }
             }
         },
@@ -379,6 +396,20 @@ local options = {
                         ValueBars.db.global.bars.absorbDamage.showText = val
                         ValueBars:UpdateBars()
                     end
+                },
+                hideOutOfCombat = {
+                    name = "Hide While Out of Combat",
+                    desc = "Hide the bar when you are not in combat",
+                    type = "toggle",
+                    order = 10,
+                    width = "full",
+                    get = function(info)
+                        return ValueBars.db.global.bars.absorbDamage.hideOutOfCombat
+                    end,
+                    set = function(info, val)
+                        ValueBars.db.global.bars.absorbDamage.hideOutOfCombat = val
+                        ValueBars:UpdateBarVisibility()
+                    end
                 }
             }
         },
@@ -513,6 +544,20 @@ local options = {
                     set = function(info, val)
                         ValueBars.db.global.bars.absorbHeal.showText = val
                         ValueBars:UpdateBars()
+                    end
+                },
+                hideOutOfCombat = {
+                    name = "Hide While Out of Combat",
+                    desc = "Hide the bar when you are not in combat",
+                    type = "toggle",
+                    order = 10,
+                    width = "full",
+                    get = function(info)
+                        return ValueBars.db.global.bars.absorbHeal.hideOutOfCombat
+                    end,
+                    set = function(info, val)
+                        ValueBars.db.global.bars.absorbHeal.hideOutOfCombat = val
+                        ValueBars:UpdateBarVisibility()
                     end
                 }
             }

@@ -47,13 +47,14 @@ function ValueBars:CreateBar(parent, displayType)
     -- Store reference to settings (will be set later)
     instance.settings = nil
     
+    -- Visibility state (separate from frame visibility)
+    instance.visible = true
+    
     -- Initialize based on type
     instance:InitializeByType()
     
     -- Show by default
     instance.frame:Show()
-    
-    print("ValueBar created: frame=" .. tostring(instance.frame) .. ", visible=" .. tostring(instance.frame:IsShown()))
     
     return instance
 end
@@ -116,6 +117,11 @@ end
 
 -- Update the bar based on its type
 function ValueBar:Update()
+    -- Don't update if not visible
+    if not self.visible then
+        return
+    end
+    
     if self.displayType == ValueBars.DisplayType.HEALTH then
         self:UpdateHealth()
     elseif self.displayType == ValueBars.DisplayType.ABSORB_DAMAGE then
@@ -129,7 +135,7 @@ end
 function ValueBar:SetValue(current, max)
     self.frame:SetMinMaxValues(0, max)
     self.frame:SetValue(current)
-    
+
     -- Update text if enabled
     if self.settings and self.settings.showText and self.text then
         self.text:SetText(AbbreviateLargeNumbers(current))
@@ -171,6 +177,27 @@ end
 -- Hide the bar
 function ValueBar:Hide()
     self.frame:Hide()
+end
+
+-- Set visibility based on enabled and combat state
+function ValueBar:SetVisible(inCombat)
+    -- Check if bar is enabled
+    if not self.settings or not self.settings.enabled then
+        self.visible = false
+        self:Hide()
+        return
+    end
+    
+    -- Check if hideOutOfCombat is enabled
+    if self.settings.hideOutOfCombat and not inCombat then
+        self.visible = false
+        self:Hide()
+        return
+    end
+    
+    -- Bar should be visible
+    self.visible = true
+    self:Show()
 end
 
 -- Set position
