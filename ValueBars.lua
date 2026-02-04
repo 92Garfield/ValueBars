@@ -121,7 +121,7 @@ function ValueBars:UpdateBars()
 
     -- Update health bar
     if self.healthBar then
-        self.healthBar.SetVisible(inCombat)
+        self.healthBar:SetVisible(inCombat)
 
         if self.healthBar.visible then
             local settings = self.db.global.bars.health
@@ -140,7 +140,7 @@ function ValueBars:UpdateBars()
     
     -- Update absorb damage bar
     if self.absorbDamageBar then
-        self.absorbDamageBar.SetVisible(inCombat)
+        self.absorbDamageBar:SetVisible(inCombat)
 
         if self.absorbDamageBar.visible then
             local settings = self.db.global.bars.absorbDamage
@@ -159,7 +159,7 @@ function ValueBars:UpdateBars()
     
     -- Update absorb heal bar
     if self.absorbHealBar then
-        self.absorbHealBar.SetVisible(inCombat)
+        self.absorbHealBar:SetVisible(inCombat)
 
         if self.absorbHealBar.visible then
             local settings = self.db.global.bars.absorbHeal
