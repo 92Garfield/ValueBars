@@ -259,7 +259,6 @@ local options = {
                     end,
                     set = function(info, val)
                         ValueBars.db.global.bars.health.hideOutOfCombat = val
-                        ValueBars:UpdateBarVisibility()
                     end
                 }
             }
@@ -408,7 +407,6 @@ local options = {
                     end,
                     set = function(info, val)
                         ValueBars.db.global.bars.absorbDamage.hideOutOfCombat = val
-                        ValueBars:UpdateBarVisibility()
                     end
                 }
             }
@@ -557,7 +555,6 @@ local options = {
                     end,
                     set = function(info, val)
                         ValueBars.db.global.bars.absorbHeal.hideOutOfCombat = val
-                        ValueBars:UpdateBarVisibility()
                     end
                 }
             }

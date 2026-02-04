@@ -6,7 +6,7 @@
 ValueBars = ValueBars or {}
 
 -- Addon variables
-ValueBars.version = "1.0.1"
+ValueBars.version = "1.0.2"
 ValueBars.bars = {}
 
 -- Initialize the addon
