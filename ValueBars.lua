@@ -3,10 +3,12 @@
 -- Author: Demonperson a.k.a. 92Garfield
 
 -- Namespace
+Utils = Utils or {}
+
 ValueBars = ValueBars or {}
 
 -- Addon variables
-ValueBars.version = "1.0.2"
+ValueBars.version = "1.0.3"
 ValueBars.bars = {}
 
 -- Initialize the addon

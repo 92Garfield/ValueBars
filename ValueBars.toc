@@ -2,7 +2,7 @@
 ## Title: ValueBars
 ## Notes:
 ## Author: Demonperson a.k.a. 92Garfield
-## Version: 1.0.2
+## Version: 1.0.3
 ## SavedVariables: ValueBarsDB
 
 # Libraries
@@ -18,6 +18,8 @@ lib\AceConfigRegistry-3.0\AceConfigRegistry-3.0.xml
 lib\AceConfigDialog-3.0\AceConfigDialog-3.0.xml
 
 # Core files
+logic\FormatNumber.lua
+
 ValueBar.lua
 ValueBars.lua
 ValueBarsOptions.lua

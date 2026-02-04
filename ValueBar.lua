@@ -136,12 +136,18 @@ function ValueBar:SetValue(current, max)
     self.frame:SetMinMaxValues(0, max)
     self.frame:SetValue(current)
 
+    -- Only apply alpha and hide logic if hideWhenEmpty is enabled
+    if self.settings and self.settings.hideWhenEmpty then
+        self.frame:SetAlpha(current, 1)
+        self:CheckHide(current)
+    else
+        self.frame:SetAlpha(1)
+    end
+
     -- Update text if enabled
     if self.settings and self.settings.showText and self.text then
         self.text:SetText(AbbreviateLargeNumbers(current))
     end
-
-    self:CheckHide(current)
 end
 
 --check if the bar should be hidden
