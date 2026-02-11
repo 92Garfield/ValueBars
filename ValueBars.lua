@@ -8,7 +8,7 @@ Utils = Utils or {}
 ValueBars = ValueBars or {}
 
 -- Addon variables
-ValueBars.version = "1.0.3"
+ValueBars.version = "1.0.4"
 ValueBars.bars = {}
 
 -- Initialize the addon
