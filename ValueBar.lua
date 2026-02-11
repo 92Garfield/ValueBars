@@ -234,6 +234,13 @@ function ValueBar:SetTextVisible(visible)
     end
 end
 
+-- Set bar texture
+function ValueBar:SetTexture(texturePath)
+    if self.frame and texturePath then
+        self.frame:SetStatusBarTexture(texturePath)
+    end
+end
+
 -- Destroy the bar and cleanup
 function ValueBar:Destroy()
     if self.frame then

@@ -40,6 +40,9 @@ function ValueBars:CreateAllBars()
     healthBar:SetPoint("CENTER", UIParent, "CENTER", healthSettings.posX, healthSettings.posY)
     healthBar:SetSize(healthSettings.width, healthSettings.height)
     healthBar.frame:SetStatusBarColor(healthSettings.color.r, healthSettings.color.g, healthSettings.color.b, healthSettings.color.a)
+    if healthSettings.texture then
+        healthBar:SetTexture(self.Options:GetTexturePath(healthSettings.texture))
+    end
     healthBar:SetBackgroundOpacity(healthSettings.bgOpacity)
     healthBar:SetTextVisible(healthSettings.showText)
     if healthSettings.enabled then
@@ -72,6 +75,9 @@ function ValueBars:CreateAllBars()
     absorbHealBar:SetPoint("CENTER", UIParent, "CENTER", absorbHealSettings.posX, absorbHealSettings.posY)
     absorbHealBar:SetSize(absorbHealSettings.width, absorbHealSettings.height)
     absorbHealBar.frame:SetStatusBarColor(absorbHealSettings.color.r, absorbHealSettings.color.g, absorbHealSettings.color.b, absorbHealSettings.color.a)
+    if absorbHealSettings.texture then
+        absorbHealBar:SetTexture(self.Options:GetTexturePath(absorbHealSettings.texture))
+    end
     absorbHealBar:SetBackgroundOpacity(absorbHealSettings.bgOpacity)
     absorbHealBar:SetTextVisible(absorbHealSettings.showText)
     self.absorbHealBar = absorbHealBar
@@ -133,6 +139,9 @@ function ValueBars:UpdateBars()
             if settings.color then
                 self.healthBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
             end
+            if settings.texture then
+                self.healthBar:SetTexture(self.Options:GetTexturePath(settings.texture, settings.textureCustom))
+            end
             if settings.bgOpacity then
                 self.healthBar:SetBackgroundOpacity(settings.bgOpacity)
             end
@@ -152,6 +161,9 @@ function ValueBars:UpdateBars()
             if settings.color then
                 self.absorbDamageBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
             end
+            if settings.texture then
+                self.absorbDamageBar:SetTexture(self.Options:GetTexturePath(settings.texture))
+            end
             if settings.bgOpacity then
                 self.absorbDamageBar:SetBackgroundOpacity(settings.bgOpacity)
             end
@@ -170,6 +182,9 @@ function ValueBars:UpdateBars()
             self.absorbHealBar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
             if settings.color then
                 self.absorbHealBar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+            end
+            if settings.texture then
+                self.absorbHealBar:SetTexture(self.Options:GetTexturePath(settings.texture, settings.textureCustom))
             end
             if settings.bgOpacity then
                 self.absorbHealBar:SetBackgroundOpacity(settings.bgOpacity)
