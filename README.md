@@ -32,9 +32,9 @@ Access the options panel via:
 
 Each bar can be configured independently with:
 - **Enable toggle** - Show/hide the bar
-- **Width slider** - 100-500 pixels
-- **Height slider** - 10-50 pixels
-- **Position X/Y** - Offset from screen center (-1000 to 1000)
+- **Width slider** - 
+- **Height slider** - 
+- **Position X/Y** - Offset from screen center
 - **Bar color** - RGBA color picker
 - **Background opacity** - 0.0 (transparent) to 1.0 (opaque)
 - **Show text** - Display current value on the bar

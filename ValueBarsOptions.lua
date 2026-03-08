@@ -124,8 +124,8 @@ local function GenerateBarOptions(barKey, barName)
             desc = "Set the width of the " .. barName:lower(),
             type = "range",
             order = 3,
-            min = 100,
-            max = 500,
+            min = 1,
+            max = 2000,
             step = 1,
             get = function(info)
                 return ValueBars.db.global.bars[barKey].width
@@ -140,8 +140,8 @@ local function GenerateBarOptions(barKey, barName)
             desc = "Set the height of the " .. barName:lower(),
             type = "range",
             order = 4,
-            min = 10,
-            max = 50,
+            min = 1,
+            max = 500,
             step = 1,
             get = function(info)
                 return ValueBars.db.global.bars[barKey].height
