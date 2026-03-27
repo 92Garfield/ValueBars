@@ -45,6 +45,13 @@ function ValueBars:CreateAllBars()
     end
     healthBar:SetBackgroundOpacity(healthSettings.bgOpacity)
     healthBar:SetTextVisible(healthSettings.showText)
+
+    if healthSettings.textureCustom then
+        healthBar:SetTexture(healthSettings.textureCustom)
+    elseif healthSettings.texture then
+        healthBar:SetTexture(self.Options:GetTexturePath(healthSettings.texture))
+    end
+
     if healthSettings.enabled then
         healthBar:Show()
     else
@@ -61,6 +68,13 @@ function ValueBars:CreateAllBars()
     absorbDamageBar.frame:SetStatusBarColor(absorbDamageSettings.color.r, absorbDamageSettings.color.g, absorbDamageSettings.color.b, absorbDamageSettings.color.a)
     absorbDamageBar:SetBackgroundOpacity(absorbDamageSettings.bgOpacity)
     absorbDamageBar:SetTextVisible(absorbDamageSettings.showText)
+
+    if absorbDamageSettings.textureCustom then
+        absorbDamageBar:SetTexture(absorbDamageSettings.textureCustom)
+    elseif absorbDamageSettings.texture then
+        absorbDamageBar:SetTexture(self.Options:GetTexturePath(absorbDamageSettings.texture))
+    end
+
     if absorbDamageSettings.enabled then
         absorbDamageBar:Show()
     else
@@ -75,6 +89,13 @@ function ValueBars:CreateAllBars()
     absorbHealBar:SetPoint("CENTER", UIParent, "CENTER", absorbHealSettings.posX, absorbHealSettings.posY)
     absorbHealBar:SetSize(absorbHealSettings.width, absorbHealSettings.height)
     absorbHealBar.frame:SetStatusBarColor(absorbHealSettings.color.r, absorbHealSettings.color.g, absorbHealSettings.color.b, absorbHealSettings.color.a)
+
+    if absorbHealSettings.textureCustom then
+        absorbHealBar:SetTexture(absorbHealSettings.textureCustom)
+    else
+        absorbHealBar:SetTexture(self.Options:GetTexturePath(absorbHealSettings.texture))
+    end
+
     if absorbHealSettings.texture then
         absorbHealBar:SetTexture(self.Options:GetTexturePath(absorbHealSettings.texture))
     end
