@@ -10,7 +10,8 @@ end
 ValueBars.DisplayType = {
     HEALTH = 1,
     ABSORB_DAMAGE = 2,
-    ABSORB_HEAL = 3
+    ABSORB_HEAL = 3,
+    UNIT_ABSORB = 4,
 }
 
 -- ValueBar class
@@ -18,7 +19,7 @@ local ValueBar = {}
 ValueBar.__index = ValueBar
 
 -- Constructor
-function ValueBars:CreateBar(parent, displayType)
+function ValueBars:CreateBar(parent, displayType, unitId)
     local instance = setmetatable({}, ValueBar)
     
     -- Create the StatusBar frame
@@ -44,6 +45,9 @@ function ValueBars:CreateBar(parent, displayType)
     -- Set the display type
     instance.displayType = displayType or ValueBars.DisplayType.HEALTH
     
+    -- Store unit ID for unit-based bars
+    instance.unitId = unitId
+    
     -- Store reference to settings (will be set later)
     instance.settings = nil
     
@@ -67,6 +71,8 @@ function ValueBar:InitializeByType()
         self:InitializeAbsorbDamage()
     elseif self.displayType == ValueBars.DisplayType.ABSORB_HEAL then
         self:InitializeAbsorbHeal()
+    elseif self.displayType == ValueBars.DisplayType.UNIT_ABSORB then
+        self:InitializeUnitAbsorb()
     end
 end
 
@@ -115,6 +121,25 @@ function ValueBar:UpdateAbsorbHeal()
     self:SetValue(healAbsorb or 0, maxHealth)
 end
 
+-- Initialize as Unit Absorb bar (shield for any unit token)
+function ValueBar:InitializeUnitAbsorb()
+    -- Set texture and color
+    self.frame:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+    self.frame:SetStatusBarColor(0.5, 0.5, 1, 1) -- Blue
+end
+
+-- Update unit absorb bar values
+function ValueBar:UpdateUnitAbsorb()
+    local unitId = self.unitId
+    if not unitId or not UnitExists(unitId) then
+        self:Hide()
+        return
+    end
+    local totalAbsorb = UnitGetTotalAbsorbs(unitId)
+    local maxHealth = UnitHealthMax(unitId)
+    self:SetValue(totalAbsorb or 0, maxHealth)
+end
+
 -- Update the bar based on its type
 function ValueBar:Update()
     -- Don't update if not visible
@@ -128,6 +153,8 @@ function ValueBar:Update()
         self:UpdateAbsorbDamage()
     elseif self.displayType == ValueBars.DisplayType.ABSORB_HEAL then
         self:UpdateAbsorbHeal()
+    elseif self.displayType == ValueBars.DisplayType.UNIT_ABSORB then
+        self:UpdateUnitAbsorb()
     end
 end
 

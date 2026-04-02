@@ -8,8 +8,17 @@ Utils = Utils or {}
 ValueBars = ValueBars or {}
 
 -- Addon variables
-ValueBars.version = "1.0.4"
+ValueBars.version = "1.0.7"
 ValueBars.bars = {}
+
+-- Unit absorb bar definitions: unitId token -> settings key
+local unitAbsorbDefs = {
+    { unitId = "target", key = "targetAbsorb"  },
+    { unitId = "boss1",  key = "boss1Absorb"   },
+    { unitId = "boss2",  key = "boss2Absorb"   },
+    { unitId = "boss3",  key = "boss3Absorb"   },
+    { unitId = "boss4",  key = "boss4Absorb"   },
+}
 
 -- Initialize the addon
 function ValueBars:Initialize()
@@ -102,11 +111,35 @@ function ValueBars:CreateAllBars()
     absorbHealBar:SetBackgroundOpacity(absorbHealSettings.bgOpacity)
     absorbHealBar:SetTextVisible(absorbHealSettings.showText)
     self.absorbHealBar = absorbHealBar
+
+    -- Unit absorb bars (target, boss1-4)
+    self.unitAbsorbBars = {}
+    for _, def in ipairs(unitAbsorbDefs) do
+        local bar = self:NewBar(UIParent, ValueBars.DisplayType.UNIT_ABSORB, def.unitId)
+        local settings = self.db.global.bars[def.key]
+        bar.settings = settings
+        bar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
+        bar:SetSize(settings.width, settings.height)
+        bar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+        if settings.textureCustom then
+            bar:SetTexture(settings.textureCustom)
+        elseif settings.texture then
+            bar:SetTexture(self.Options:GetTexturePath(settings.texture))
+        end
+        bar:SetBackgroundOpacity(settings.bgOpacity)
+        bar:SetTextVisible(settings.showText)
+        if settings.enabled then
+            bar:Show()
+        else
+            bar:Hide()
+        end
+        self.unitAbsorbBars[def.unitId] = bar
+    end
 end
 
 -- Create a new bar and track it
-function ValueBars:NewBar(parent, displayType)
-    local bar = self:CreateBar(parent, displayType)
+function ValueBars:NewBar(parent, displayType, unitId)
+    local bar = self:CreateBar(parent, displayType, unitId)
     table.insert(self.bars, bar)
     return bar
 end
@@ -213,6 +246,33 @@ function ValueBars:UpdateBars()
             self.absorbHealBar:SetTextVisible(settings.showText)
         end
     end
+
+    -- Update unit absorb bars (target, boss1-4)
+    if self.unitAbsorbBars then
+        for _, def in ipairs(unitAbsorbDefs) do
+            local bar = self.unitAbsorbBars[def.unitId]
+            if bar then
+                bar:SetVisible(inCombat)
+
+                if bar.visible then
+                    local settings = self.db.global.bars[def.key]
+                    bar:SetSize(settings.width, settings.height)
+                    bar.frame:ClearAllPoints()
+                    bar:SetPoint("CENTER", UIParent, "CENTER", settings.posX, settings.posY)
+                    if settings.color then
+                        bar.frame:SetStatusBarColor(settings.color.r, settings.color.g, settings.color.b, settings.color.a)
+                    end
+                    if settings.texture then
+                        bar:SetTexture(self.Options:GetTexturePath(settings.texture, settings.textureCustom))
+                    end
+                    if settings.bgOpacity then
+                        bar:SetBackgroundOpacity(settings.bgOpacity)
+                    end
+                    bar:SetTextVisible(settings.showText)
+                end
+            end
+        end
+    end
 end
 
 -- Update all bar values
@@ -244,6 +304,20 @@ function ValueBars:UpdateAllBarValues()
 
         if self.absorbHealBar.visible then
             self.absorbHealBar:Update()
+        end
+    end
+
+    -- Update unit absorb bar values (target, boss1-4)
+    if self.unitAbsorbBars then
+        for _, def in ipairs(unitAbsorbDefs) do
+            local bar = self.unitAbsorbBars[def.unitId]
+            if bar then
+                bar:SetVisible(inCombat)
+
+                if bar.visible then
+                    bar:Update()
+                end
+            end
         end
     end
 end

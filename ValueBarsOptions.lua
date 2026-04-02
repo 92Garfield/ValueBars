@@ -70,6 +70,71 @@ local defaults = {
                 showText = false,
                 hideOutOfCombat = false,
                 hideWhenEmpty = false
+            },
+            targetAbsorb = {
+                enabled = false,
+                width = 200,
+                height = 20,
+                posX = 0,
+                posY = -90,
+                color = Color(0.5, 0.5, 1, 1), -- Blue
+                texture = "Blizzard",
+                bgOpacity = 0.5,
+                showText = false,
+                hideOutOfCombat = false,
+                hideWhenEmpty = false
+            },
+            boss1Absorb = {
+                enabled = false,
+                width = 200,
+                height = 20,
+                posX = 0,
+                posY = -120,
+                color = Color(0.5, 0.5, 1, 1), -- Blue
+                texture = "Blizzard",
+                bgOpacity = 0.5,
+                showText = false,
+                hideOutOfCombat = false,
+                hideWhenEmpty = false
+            },
+            boss2Absorb = {
+                enabled = false,
+                width = 200,
+                height = 20,
+                posX = 0,
+                posY = -150,
+                color = Color(0.5, 0.5, 1, 1), -- Blue
+                texture = "Blizzard",
+                bgOpacity = 0.5,
+                showText = false,
+                hideOutOfCombat = false,
+                hideWhenEmpty = false
+            },
+            boss3Absorb = {
+                enabled = false,
+                width = 200,
+                height = 20,
+                posX = 0,
+                posY = -180,
+                color = Color(0.5, 0.5, 1, 1), -- Blue
+                texture = "Blizzard",
+                bgOpacity = 0.5,
+                showText = false,
+                hideOutOfCombat = false,
+                hideWhenEmpty = false
+            },
+            boss4Absorb = {
+                enabled = false,
+                width = 200,
+                height = 20,
+                posX = 0,
+                posY = -210,
+                color = Color(0.5, 0.5, 1, 1), -- Blue
+                texture = "Blizzard",
+                bgOpacity = 0.5,
+                showText = false,
+                hideOutOfCombat = false,
+                hideWhenEmpty = false
             }
         }
     }
@@ -93,6 +158,31 @@ local barConfigs = {
         key = "absorbHeal",
         name = "Absorb Heal Bar",
         order = 4
+    },
+    {
+        key = "targetAbsorb",
+        name = "Target Absorb Bar",
+        order = 5
+    },
+    {
+        key = "boss1Absorb",
+        name = "Boss 1 Absorb Bar",
+        order = 6
+    },
+    {
+        key = "boss2Absorb",
+        name = "Boss 2 Absorb Bar",
+        order = 7
+    },
+    {
+        key = "boss3Absorb",
+        name = "Boss 3 Absorb Bar",
+        order = 8
+    },
+    {
+        key = "boss4Absorb",
+        name = "Boss 4 Absorb Bar",
+        order = 9
     }
 }
 
@@ -387,8 +477,6 @@ function ValueBars.Options:Initialize()
     
     -- Add to Blizzard options
     self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("ValueBars", "ValueBars")
-    
-    print("ValueBars options panel registered!")
 end
 
 -- Open the options panel
